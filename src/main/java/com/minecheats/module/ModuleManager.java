@@ -10,6 +10,7 @@ import com.minecheats.modules.movement.Step;
 import com.minecheats.modules.player.FastBreak;
 import com.minecheats.modules.player.FastPlace;
 import com.minecheats.modules.render.FullBright;
+import com.minecheats.modules.testing.AntiDetect;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,6 +37,8 @@ public class ModuleManager {
         add(new FastPlace());
         // Render
         add(new FullBright());
+        // Testing
+        add(new AntiDetect());
     }
 
     private void add(Module module) {

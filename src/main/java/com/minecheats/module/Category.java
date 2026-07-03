@@ -4,7 +4,8 @@ public enum Category {
     COMBAT("Combat"),
     MOVEMENT("Movement"),
     PLAYER("Player"),
-    RENDER("Render");
+    RENDER("Render"),
+    TESTING("Testing");
 
     public final String display;
 

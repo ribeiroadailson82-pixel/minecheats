@@ -1,5 +1,6 @@
 package com.minecheats.modules.movement;
 
+import com.minecheats.TestProfile;
 import com.minecheats.module.Category;
 import com.minecheats.module.Module;
 import net.minecraft.client.player.LocalPlayer;
@@ -9,10 +10,19 @@ import net.minecraft.world.phys.Vec3;
 /**
  * Boosts horizontal ground movement speed in the direction the player is
  * actually trying to move.
+ *
+ * <p>Raw mode: {@value #RAW_SPEED} blocks/tick (~12 b/s), far above vanilla
+ * sprint (~5.6 b/s) — trivially flagged by a per-tick distance check.
+ *
+ * <p>Anti-detect test mode ({@link TestProfile#antiDetect}): caps to
+ * {@value #LEGIT_SPEED} b/tick, only slightly above vanilla sprint.
+ * Detection signals to test against: sustained horizontal speed above the
+ * sprint ceiling, and speed uncorrelated with sprint/effect state.
  */
 public class Speed extends Module {
 
-    private final double speed = 0.6; // blocks per tick when moving
+    private static final double RAW_SPEED = 0.6;   // blocks per tick
+    private static final double LEGIT_SPEED = 0.32; // just above vanilla sprint
 
     public Speed() {
         super("Speed", "Move faster along the ground.", Category.MOVEMENT,
@@ -42,6 +52,7 @@ public class Speed extends Module {
         if (len < 1.0e-4) {
             return;
         }
+        double speed = TestProfile.antiDetect ? LEGIT_SPEED : RAW_SPEED;
         dirX = dirX / len * speed;
         dirZ = dirZ / len * speed;
 
